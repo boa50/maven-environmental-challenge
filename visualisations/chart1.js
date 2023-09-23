@@ -1,9 +1,10 @@
 import { width, height, margin } from "./constants.js"
+import { emissionsFormat, categoryFormat } from "./aux.js"
 
 export const chart1 = (svg, data) => {
     let dataPrepared = data.filter(d => d.Type === 'Gross emissions')
     dataPrepared = d3.rollup(dataPrepared, d => d3.sum(d, v => v.Emissions), d => d.Category)
-    dataPrepared = d3.map(dataPrepared, d => { return { 'Category': d[0], 'Emissions': d[1] } })
+    dataPrepared = d3.map(dataPrepared, d => { return { 'Category': categoryFormat(d[0]), 'Emissions': d[1] } })
 
     const x = d3
         .scaleBand()
@@ -20,7 +21,7 @@ export const chart1 = (svg, data) => {
         .range([height - margin.bottom, margin.top])
     svg.append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y))
+        .call(d3.axisLeft(y).tickFormat(emissionsFormat))
 
     svg
         .selectAll('.bar')
