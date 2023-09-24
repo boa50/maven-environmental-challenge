@@ -1,10 +1,16 @@
 import { width, height, margin } from "./constants.js"
 import { emissionsFormat, categoryFormat } from "./aux.js"
 
-export const chart1 = (svg, data) => {
+const prepareData = data => {
     let dataPrepared = data.filter(d => d.Type === 'Gross emissions')
     dataPrepared = d3.rollup(dataPrepared, d => d3.sum(d, v => v.Emissions), d => d.Category)
     dataPrepared = d3.map(dataPrepared, d => { return { 'Category': categoryFormat(d[0]), 'Emissions': d[1] } })
+
+    return dataPrepared
+}
+
+export const chart1 = (svg, data) => {
+    const dataPrepared = prepareData(data)
 
     const x = d3
         .scaleBand()
