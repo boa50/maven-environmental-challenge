@@ -17,7 +17,8 @@ export const chart1 = (svg, data) => {
         .domain(d3.map(dataPrepared, d => d.Category))
         .range([margin.left, width - margin.right])
         .padding([0.2])
-    svg.append('g')
+    svg
+        .append('g')
         .attr('transform', `translate(0, ${height - margin.bottom})`)
         .call(d3.axisBottom(x).tickSizeOuter(0))
 
@@ -25,7 +26,8 @@ export const chart1 = (svg, data) => {
         .scaleLinear()
         .domain([0, d3.max(dataPrepared, d => d.Emissions) * 1.05])
         .range([height - margin.bottom, margin.top])
-    svg.append('g')
+    svg
+        .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
         .call(d3.axisLeft(y).tickFormat(emissionsFormat))
 

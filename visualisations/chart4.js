@@ -1,38 +1,30 @@
-import { width, height, margin } from "./constants.js"
+import { height, margin, width } from "./constants.js"
 import { emissionsFormat } from "./aux.js"
 
 const prepareData = data => {
-    let dataPrepared = data.filter(d => d.Category === 'Corporate emissions')
+    let dataPrepared = data.filter(d => d.Category === 'Product life cycle emissions')
 
     dataPrepared = d3
         .nest()
-        .key(d => d.Type)
         .key(d => d['Fiscal Year'])
         .rollup(d => d3.sum(d, v => v.Emissions))
         .entries(dataPrepared)
         .map(d => {
             return {
-                type: d.key,
-                values: d.values.map(v => {
-                    return {
-                        year: new Date(v.key, 0, 1),
-                        emissions: Math.abs(v.value)
-                    }
-                })
+                year: new Date(d.key, 0, 1),
+                emissions: d.value
             }
         })
 
     return dataPrepared
 }
 
-export const chart3 = (svg, data) => {
+export const chart4 = (svg, data) => {
     const dataPrepared = prepareData(data)
-    const values = dataPrepared.map(d => d.values.map(v => v.emissions))
-    const maxValue = d3.max([...values[0], ...values[1]])
 
     const x = d3
         .scaleTime()
-        .domain(d3.extent(data, d => new Date(d['Fiscal Year'], 0, 1)))
+        .domain(d3.extent(dataPrepared, d => d.year))
         .range([margin.left, width - margin.right])
     svg
         .append('g')
@@ -41,17 +33,12 @@ export const chart3 = (svg, data) => {
 
     const y = d3
         .scaleLinear()
-        .domain([0, maxValue * 1.05])
+        .domain([0, d3.max(dataPrepared, d => d.emissions) * 1.05])
         .range([height - margin.bottom, margin.top])
     svg
         .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
         .call(d3.axisLeft(y).tickFormat(emissionsFormat))
-
-    const colours = d3
-        .scaleOrdinal()
-        .domain(d3.map(dataPrepared, d => d.type))
-        .range(d3.schemeTableau10)
 
     const lineGenerator = d3
         .line()
@@ -60,10 +47,12 @@ export const chart3 = (svg, data) => {
 
     svg
         .selectAll('.line')
-        .data(dataPrepared)
+        // .append('path')
+        // .datum(dataPrepared)
+        .data([dataPrepared])
         .join('path')
-        .attr('d', d => lineGenerator(d.values))
-        .attr('stroke', d => colours(d.type))
+        .attr('d', lineGenerator)
+        .attr('stroke', d3.schemeTableau10[3])
         .style('fill', 'none')
         .attr('stroke-width', 2)
 }
