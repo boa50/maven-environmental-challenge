@@ -24,7 +24,7 @@ export const chart4 = (svg, data) => {
 
     const x = d3
         .scaleTime()
-        .domain(d3.extent(dataPrepared, d => d.year))
+        .domain([d3.min(dataPrepared, d => d.year), new Date(2030, 0, 1)])
         .range([margin.left, width - margin.right])
     svg
         .append('g')
@@ -45,6 +45,17 @@ export const chart4 = (svg, data) => {
         .x(d => x(d.year))
         .y(d => y(d.emissions))
 
+    const regressionData = [
+        { year: dataPrepared[dataPrepared.length - 1].year, emissions: dataPrepared[dataPrepared.length - 1].emissions },
+        { year: new Date(2030, 0, 1), emissions: dataPrepared[dataPrepared.length - 1].emissions * 0.25 }
+    ]
+
+    const linearRegression = d3
+        .regressionLinear()
+        .x(d => d.year)
+        .y(d => d.emissions)
+        .domain(d3.extent(regressionData, d => d.year))
+
     svg
         .selectAll('.line')
         // .append('path')
@@ -55,4 +66,15 @@ export const chart4 = (svg, data) => {
         .attr('stroke', d3.schemeTableau10[3])
         .style('fill', 'none')
         .attr('stroke-width', 2)
+
+    svg
+        .append('line')
+        .datum(linearRegression(regressionData))
+        .attr("x1", d => x(d[0][0]))
+        .attr("x2", d => x(d[1][0]))
+        .attr("y1", d => y(d[0][1]))
+        .attr("y2", d => y(d[1][1]))
+        .attr('stroke', d3.schemeTableau10[6])
+        .attr('stroke-width', 2)
+        .style('stroke-dasharray', ('7,7'))
 }
