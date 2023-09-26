@@ -3,33 +3,27 @@ import { chart1 } from "./chart1.js"
 import { chart2 } from "./chart2.js"
 import { chart3 } from "./chart3.js"
 import { chart4 } from "./chart4.js"
+import { chart5 } from "./chart5.js"
 
 const getData = async () =>
-    d3.csv('../dataset/apple_emissions/greenhouse_gas_emissions.csv')
+    Promise.all([
+        d3.csv('../dataset/apple_emissions/greenhouse_gas_emissions.csv'),
+        d3.csv('../dataset/apple_emissions/normalizing_factors.csv')
+    ])
 
-const svgChart1 = d3
-    .select('#chart1')
-    .attr('width', width)
-    .attr('height', height)
+const getSvg = (position, customHeight) =>
+    d3
+        .select(`#chart${position}`)
+        .attr('width', width)
+        .attr('height', customHeight ? customHeight : height)
 
-const svgChart2 = d3
-    .select('#chart2')
-    .attr('width', width)
-    .attr('height', chart2Height)
+getData().then(datasets => {
+    const greenhouseData = datasets[0]
+    const normalizingData = datasets[1]
 
-const svgChart3 = d3
-    .select('#chart3')
-    .attr('width', width)
-    .attr('height', height)
-
-const svgChart4 = d3
-    .select('#chart4')
-    .attr('width', width)
-    .attr('height', height)
-
-getData().then(data => {
-    chart1(svgChart1, data)
-    chart2(svgChart2, data)
-    chart3(svgChart3, data)
-    chart4(svgChart4, data)
+    chart1(getSvg(1), greenhouseData)
+    chart2(getSvg(2, chart2Height), greenhouseData)
+    chart3(getSvg(3), greenhouseData)
+    chart4(getSvg(4), greenhouseData)
+    chart5(getSvg(5), greenhouseData, normalizingData)
 })
