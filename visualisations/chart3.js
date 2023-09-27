@@ -1,5 +1,5 @@
 import { width, height, margin } from "./constants.js"
-import { emissionsFormat } from "./aux.js"
+import { emissionsFormat, expandAxis } from "./aux.js"
 
 const prepareData = data => {
     let dataPrepared = data.filter(d => d.Category === 'Corporate emissions')
@@ -41,7 +41,7 @@ export const chart3 = (svg, data) => {
 
     const y = d3
         .scaleLinear()
-        .domain([0, maxValue * 1.05])
+        .domain(expandAxis([0, maxValue]))
         .range([height - margin.bottom, margin.top])
     svg
         .append('g')
