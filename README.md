@@ -13,3 +13,7 @@ For the Maven Environmental Challenge, you'll be working as an independent journ
 The dataset contains 3 tables, in CSV format. The "Greenhouse Gas Emissions" table contains the sources of Apple's greenhouse gas emissions from 2015 to 2022 divided by category (corporate & product life cycle), scope (direct scope 1 emissions & indirect scope 2 and 3 emissions), and type (emissions & removals). The "Carbon Footprint by Product" table contains the emissions from the product life cycle of every baseline iPhone model released between 2015-2022. The "Normalizing Factors" table contains Apple's revenue, market cap, and employees during the same period.
 
 Challenge URL: https://mavenanalytics.io/challenges/maven-environmental-challenge/27
+
+Gauge chart based on:
+* https://medium.com/d3-datavisualization-examples/gauge-chart-reuable-code-using-d3-js-be706e62f88
+* https://github.com/NavyaKarthik/D3CodeCamp/blob/master/Scripts/D3GaugeChart.js

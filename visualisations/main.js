@@ -5,6 +5,7 @@ import { chart3 } from "./chart3.js"
 import { chart4 } from "./chart4.js"
 import { chart5 } from "./chart5.js"
 import { chart6 } from "./chart6.js"
+import { chart7 } from "./chart7.js"
 
 const getData = async () =>
     Promise.all([
@@ -28,4 +29,5 @@ getData().then(datasets => {
     chart4(getSvg(4), greenhouseData)
     chart5(getSvg(5), greenhouseData, normalizingData)
     chart6(getSvg(6), greenhouseData)
+    chart7(getSvg(7), greenhouseData)
 })
