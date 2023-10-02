@@ -1,5 +1,6 @@
-import { width, height, margin } from "./constants.js"
+import { width, height, margin, negativeColour } from "./constants.js"
 import { emissionsFormat, expandAxis } from "./aux.js"
+import { positiveColour } from "./constants.js"
 
 const prepareData = data => {
     let dataPrepared = data.filter(d => d.Category === 'Corporate emissions')
@@ -37,7 +38,7 @@ export const chart3 = (svg, data) => {
     svg
         .append('g')
         .attr('transform', `translate(0, ${height - margin.bottom})`)
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x).ticks(4))
 
     const y = d3
         .scaleLinear()
@@ -46,12 +47,21 @@ export const chart3 = (svg, data) => {
     svg
         .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).tickFormat(emissionsFormat))
+        .call(d3.axisLeft(y).ticks(6).tickFormat(emissionsFormat))
+
+    svg.append('text')
+        .attr('class', 'axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('y', 0)
+        .attr('x', -height/2)
+        .attr('dy', '.75em')
+        .attr('transform', 'rotate(-90)')
+        .text('CO2e emissions (metric tons)');
 
     const colours = d3
         .scaleOrdinal()
         .domain(d3.map(dataPrepared, d => d.type))
-        .range(d3.schemeTableau10)
+        .range([negativeColour, positiveColour])
 
     const lineGenerator = d3
         .line()
@@ -65,5 +75,5 @@ export const chart3 = (svg, data) => {
         .attr('d', d => lineGenerator(d.values))
         .attr('stroke', d => colours(d.type))
         .style('fill', 'none')
-        .attr('stroke-width', 2)
+        .attr('stroke-width', 5)
 }

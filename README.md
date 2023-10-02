@@ -17,3 +17,16 @@ Challenge URL: https://mavenanalytics.io/challenges/maven-environmental-challeng
 Gauge chart based on:
 * https://medium.com/d3-datavisualization-examples/gauge-chart-reuable-code-using-d3-js-be706e62f88
 * https://github.com/NavyaKarthik/D3CodeCamp/blob/master/Scripts/D3GaugeChart.js
+
+To add css to the external svg file was inserted a tag like this:
+
+```svg
+<svg>
+    <defs>
+        <style type="text/css"><![CDATA[
+            ### CSS STYLES ###
+        ]]></style>
+    </defs>
+    ...
+</svg>
+```

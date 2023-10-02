@@ -1,4 +1,5 @@
 import { height, margin } from "./constants.js"
+import { positiveColour, positiveColourLightend, neutralColour } from "./constants.js"
 
 const percToDeg = perc => perc * 180
 const degToRad = deg => deg * Math.PI / 180
@@ -46,18 +47,18 @@ export const goalAchievement = (svg, data) => {
     chart
         .append('path')
         .attr('d', getArc(0, achievement + 0.01))
-        .attr('fill', '#628B2E')
+        .attr('fill', positiveColour)
 
     // REMAINING
     chart
         .append('path')
         .attr('d', getArc(achievement, 1))
-        .attr('fill', '#B3D785')
+        .attr('fill', positiveColourLightend)
 
     // GOAL
     chart
         .append('path')
         .attr('d', getArc(0.7475, 0.7525))
-        .attr('fill', '#034D4F')
+        .attr('fill', neutralColour)
 
 }

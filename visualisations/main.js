@@ -14,19 +14,19 @@ const getData = async () =>
         d3.csv('../dataset/apple_emissions/normalizing_factors.csv')
     ])
 
-const getSvg = (position, customHeight) =>
+const getSvg = (position, customHeight, customWidth) =>
     d3
         .select(`#chart${position}`)
-        .attr('width', width)
+        .attr('width', customWidth ? customWidth : width)
         .attr('height', customHeight ? customHeight : height)
 
 getData().then(datasets => {
     const greenhouseData = datasets[0]
     const normalizingData = datasets[1]
 
-    goalAchievement(getSvg(0), greenhouseData)
+    goalAchievement(getSvg(0, height, 600), greenhouseData)
     chart1(getSvg(1), greenhouseData)
-    chart2(getSvg(2, chart2Height), greenhouseData)
+    chart2(getSvg(2, chart2Height, 600), greenhouseData)
     chart3(getSvg(3), greenhouseData)
     chart4(getSvg(4), greenhouseData)
     chart5(getSvg(5), greenhouseData, normalizingData)

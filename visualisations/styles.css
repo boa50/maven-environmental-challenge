@@ -24,6 +24,7 @@ body {
 
 .tick {
     color: #777777;
+    font-size: 16px;
 }
 
 .domain {
@@ -32,5 +33,5 @@ body {
 
 .axis-label {
     fill: #777777;
-    font-size: 0.7rem;
+    font-size: 16px;
 }
