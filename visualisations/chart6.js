@@ -47,7 +47,7 @@ export const chart6 = (svg, data) => {
         .attr('x', -height / 2)
         .attr('dy', '.75em')
         .attr('transform', 'rotate(-90)')
-        .text('CO2e emissions (metric tons)');
+        .text('CO2e emissions (metric tons)')
 
     const colours = d3
         .scaleOrdinal()
@@ -74,5 +74,5 @@ export const chart6 = (svg, data) => {
         .attr('y', (height / 2) * 1.1)
         .attr('x', (width + margin.left) / 2)
         .attr('dy', '.75em')
-        .text('Manufacturing');
+        .text('Manufacturing')
 }

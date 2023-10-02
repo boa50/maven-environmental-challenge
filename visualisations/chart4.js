@@ -48,7 +48,7 @@ export const chart4 = (svg, data) => {
         .attr('x', -height / 2)
         .attr('dy', '.75em')
         .attr('transform', 'rotate(-90)')
-        .text('CO2e emissions (metric tons)');
+        .text('CO2e emissions (metric tons)')
 
     const lineGenerator = d3
         .line()

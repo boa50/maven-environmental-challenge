@@ -26,7 +26,7 @@ getData().then(datasets => {
 
     goalAchievement(getSvg(0, height, 600), greenhouseData)
     chart1(getSvg(1), greenhouseData)
-    chart2(getSvg(2, chart2Height, 600), greenhouseData)
+    chart2(getSvg(2, chart2Height, 500), greenhouseData)
     chart3(getSvg(3), greenhouseData)
     chart4(getSvg(4), greenhouseData)
     chart5(getSvg(5), greenhouseData, normalizingData)
