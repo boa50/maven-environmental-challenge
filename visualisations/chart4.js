@@ -1,5 +1,6 @@
 import { height, margin, width } from "./constants.js"
 import { emissionsFormat, expandAxis } from "./aux.js"
+import { negativeColour, positiveColourLightend } from "./constants.js"
 
 const prepareData = data => {
     let dataPrepared = data.filter(d => d.Category === 'Product life cycle emissions')
@@ -29,7 +30,7 @@ export const chart4 = (svg, data) => {
     svg
         .append('g')
         .attr('transform', `translate(0, ${height - margin.bottom})`)
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x).ticks(4))
 
     const y = d3
         .scaleLinear()
@@ -38,7 +39,16 @@ export const chart4 = (svg, data) => {
     svg
         .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).tickFormat(emissionsFormat))
+        .call(d3.axisLeft(y).ticks(4).tickFormat(emissionsFormat))
+
+    svg.append('text')
+        .attr('class', 'axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('y', 0)
+        .attr('x', -height / 2)
+        .attr('dy', '.75em')
+        .attr('transform', 'rotate(-90)')
+        .text('CO2e emissions (metric tons)');
 
     const lineGenerator = d3
         .line()
@@ -63,9 +73,9 @@ export const chart4 = (svg, data) => {
         .data([dataPrepared])
         .join('path')
         .attr('d', lineGenerator)
-        .attr('stroke', d3.schemeTableau10[3])
+        .attr('stroke', negativeColour)
         .style('fill', 'none')
-        .attr('stroke-width', 2)
+        .attr('stroke-width', 5)
 
     svg
         .append('line')
@@ -74,7 +84,7 @@ export const chart4 = (svg, data) => {
         .attr("x2", d => x(d[1][0]))
         .attr("y1", d => y(d[0][1]))
         .attr("y2", d => y(d[1][1]))
-        .attr('stroke', d3.schemeTableau10[6])
-        .attr('stroke-width', 2)
+        .attr('stroke', positiveColourLightend)
+        .attr('stroke-width', 3)
         .style('stroke-dasharray', ('7,7'))
 }
