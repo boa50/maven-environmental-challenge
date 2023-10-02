@@ -5,4 +5,5 @@ export const chart2Height = 100
 export const positiveColour = '#628B2E'
 export const positiveColourLightend = '#B3D785'
 export const negativeColour = '#987654'
+export const negativeColourLightend = '#D8C8B8'
 export const neutralColour = '#034D4F'

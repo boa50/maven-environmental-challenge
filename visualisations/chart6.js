@@ -1,5 +1,6 @@
 import { height, margin, width } from "./constants.js"
 import { emissionsFormat, expandAxis } from "./aux.js"
+import { negativeColour, negativeColourLightend } from "./constants.js"
 
 const prepareData = data => {
     let dataPrepared = data.filter(d =>
@@ -28,7 +29,7 @@ export const chart6 = (svg, data) => {
     svg
         .append('g')
         .attr('transform', `translate(0, ${height - margin.bottom})`)
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x).ticks(4))
 
     const y = d3
         .scaleLinear()
@@ -37,12 +38,21 @@ export const chart6 = (svg, data) => {
     svg
         .append('g')
         .attr('transform', `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y).tickFormat(emissionsFormat))
+        .call(d3.axisLeft(y).ticks(4).tickFormat(emissionsFormat))
+
+    svg.append('text')
+        .attr('class', 'axis-label')
+        .attr('text-anchor', 'middle')
+        .attr('y', 0)
+        .attr('x', -height / 2)
+        .attr('dy', '.75em')
+        .attr('transform', 'rotate(-90)')
+        .text('CO2e emissions (metric tons)');
 
     const colours = d3
         .scaleOrdinal()
         .domain(groups)
-        .range(d3.schemeTableau10)
+        .range([negativeColour, negativeColourLightend, negativeColourLightend, negativeColourLightend])
 
     const areaGenerator = d3
         .area()
@@ -56,4 +66,13 @@ export const chart6 = (svg, data) => {
         .join('path')
         .style('fill', d => colours(d.key))
         .attr('d', areaGenerator)
+
+    svg.append('text')
+        .attr('fill', 'white')
+        .attr('font-size', 20)
+        .attr('text-anchor', 'middle')
+        .attr('y', (height / 2) * 1.1)
+        .attr('x', (width + margin.left) / 2)
+        .attr('dy', '.75em')
+        .text('Manufacturing');
 }
